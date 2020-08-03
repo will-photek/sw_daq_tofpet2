@@ -5,6 +5,7 @@
 #include <string>
 #include <event_decode.hpp>
 #include <sys/mman.h>
+#include <boost/python/numpy.hpp>
 
 namespace PETSYS {
 	

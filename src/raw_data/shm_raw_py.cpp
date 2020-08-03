@@ -1,4 +1,5 @@
 #include <boost/python.hpp>
+#include <boost/python/numpy.hpp>
 using namespace boost::python;
 
 #include "shm_raw.hpp"
@@ -6,6 +7,8 @@ using namespace PETSYS;
 
 BOOST_PYTHON_MODULE(shm_raw)
 {
+	numpy::initialize();
+
 	class_<SHM_RAW>("SHM_RAW", init<std::string>())
 		.def("getSizeInBytes", &SHM_RAW::getSizeInBytes)
 		.def("getSizeInFrames", &SHM_RAW::getSizeInFrames)
@@ -20,5 +23,6 @@ BOOST_PYTHON_MODULE(shm_raw)
 		.def("getEFine", &SHM_RAW::getEFine)
 		.def("getTacID", &SHM_RAW::getTacID)
 		.def("getChannelID", &SHM_RAW::getChannelID)
+		.def("getNumpyFrame", &frame2numpy)
 	;
 }
