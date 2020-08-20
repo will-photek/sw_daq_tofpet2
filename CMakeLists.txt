@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(sw_daq_tofpet2)
 find_package(PythonLibs 2.6 REQUIRED)
-find_package(Boost REQUIRED python regex)
+find_package(Boost REQUIRED python3 regex)
 include(CheckIncludeFiles)
 
 include_directories(${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS})
@@ -69,6 +69,7 @@ configure_file("src/gui/start_gui" "start_gui" COPYONLY)
 include_directories( ${ROOT_INCDIR} )
 link_libraries(${ROOT_LIBS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ROOT_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lboost_python3 -lboost_system -lboost_regex /usr/lib64/boost169/libboost_regex.so /usr/lib64/libpython3.6m.so.1.0 /usr/lib64/libboost_numpy36.so.1.69.0")
 
 add_library ( common STATIC
 	"src/base/ThreadPool.cpp"
@@ -106,3 +107,5 @@ target_link_libraries("merge_raw" common)
 
 add_executable("analyze_asic_quick_scan" "src/petsys_util/analyze_asic_quick_scan.cpp" )
 target_link_libraries("analyze_asic_quick_scan" common)
+
+set(CXX_INCLUDES "${CXX_INCLUDES} -lboost_python3 -lboost_system -lboost_regex /usr/lib64/boost169/libboost_regex.so /usr/lib64/libpython3.6m.so.1.0 /usr/lib64/libboost_numpy36.so.1.69.0")
