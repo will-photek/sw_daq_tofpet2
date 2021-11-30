@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(sw_daq_tofpet2)
 find_package(PythonLibs 3.6 REQUIRED)
-find_package(Boost REQUIRED python3 regex)
+find_package(Boost REQUIRED python3 regex numpy3)
+#find_package(Boost COMPONENTS python3 numpy3 regex REQUIRED)
 include(CheckIncludeFiles)
 
 include_directories(${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS})
@@ -23,6 +24,7 @@ set (DAQD_SOURCES "src/daqd/daqd.cpp" "src/daqd/Client.cpp" "src/daqd/FrameServe
 
 add_executable("daqd" ${DAQD_SOURCES})
 add_executable("write_raw" "src/raw_data/write_raw.cpp" "src/raw_data/shm_raw.cpp")
+add_executable("live_raw" "src/raw_data/live_raw.cpp" "src/raw_data/shm_raw.cpp")
 
 execute_process(COMMAND root-config --incdir OUTPUT_VARIABLE ROOT_INCDIR)
 string(STRIP ${ROOT_INCDIR} ROOT_INCDIR)

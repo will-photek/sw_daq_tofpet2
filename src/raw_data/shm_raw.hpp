@@ -64,8 +64,8 @@ struct RawDataFrame {
 	unsigned getChannelID(int event) {
 		RawEventWord rawEvent(data[event+2]);
 		return rawEvent.getChannelID();
-	};
-	
+    };
+
 };
 
 class SHM_RAW {
@@ -81,7 +81,7 @@ public:
 	RawDataFrame *getRawDataFrame(int index) {
 		RawDataFrame *dataFrame = &shm[index];
 		return dataFrame;
-	}
+    }
 
 	unsigned long long getFrameWord(int index, int n) {
 		RawDataFrame *dataFrame = &shm[index];
