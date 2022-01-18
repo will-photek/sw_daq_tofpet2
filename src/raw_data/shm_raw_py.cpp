@@ -55,9 +55,8 @@ np::ndarray getNumpyFrameBlock(SHM_RAW& obj, int start_index, int end_index) {
     for (int index = start_index; index <= end_index; index++) {
         RawDataFrame *dataFrame = obj.getRawDataFrame(index);
         auto dataframe_start = std::begin(dataFrame->data);
-        std::advance(dataframe_start, 2);  // +2 to ignore headers
         std::copy(dataframe_start, std::end(dataFrame->data), data + datapt);
-        datapt += dataFrame->getFrameSize() - 2; // do not account for headers here
+        datapt += dataFrame->getFrameSize();
     }
 
     boost::python::tuple shape = boost::python::make_tuple(datapt);
