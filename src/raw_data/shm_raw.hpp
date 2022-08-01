@@ -76,7 +76,10 @@ public:
 	unsigned long long getSizeInBytes();
 	unsigned long long  getSizeInFrames() { 
 		return MaxRawDataFrameQueueSize;
-	};
+    };
+
+
+    RawDataFrame *shm;
 	
 	RawDataFrame *getRawDataFrame(int index) {
 		RawDataFrame *dataFrame = &shm[index];
@@ -130,9 +133,9 @@ public:
 		return  getRawDataFrame(index)->getChannelID(event);
 	};
 
+
 private:
-	int shmfd;
-	RawDataFrame *shm;
+    int shmfd;
 	off_t shmSize;
 };
 
