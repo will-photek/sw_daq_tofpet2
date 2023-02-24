@@ -25,6 +25,5 @@ kernel kernel-devel \
 cmake \
 iniparser-devel \
 xterm \
-dkms
-
-pip install bitarray
+dkms \
+python3-bitarray
