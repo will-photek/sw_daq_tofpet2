@@ -1,6 +1,17 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(sw_daq_tofpet2)
 
+find_package(PythonLibs 3.9 REQUIRED)
+if(${PYTHONLIBS_VERSION_STRING} VERSION_GREATER_EQUAL "3.9" AND ${PYTHONLIBS_VERSION_STRING} VERSION_LESS "3.10")
+find_package(Boost REQUIRED python39 regex numpy39)
+elseif(${PYTHONLIBS_VERSION_STRING} VERSION_GREATER_EQUAL "3.10" AND ${PYTHONLIBS_VERSION_STRING} VERSION_LESS "3.11")
+find_package(Boost REQUIRED python310 regex numpy310)
+elseif(${PYTHONLIBS_VERSION_STRING} VERSION_GREATER_EQUAL "3.11" AND ${PYTHONLIBS_VERSION_STRING} VERSION_LESS "3.12")
+find_package(Boost REQUIRED python311 regex numpy311)
+else()
+message( FATAL_ERROR "No supported python version found!." )
+endif()
+#find_package(Boost COMPONENTS python3 numpy3 regex REQUIRED)
 find_program(LSB_RELEASE_EXEC lsb_release)
 execute_process(COMMAND ${LSB_RELEASE_EXEC} -is
 	OUTPUT_VARIABLE LSB_ID_SHORT
@@ -41,6 +52,7 @@ set (DAQD_SOURCES "src/daqd/daqd.cpp" "src/daqd/Client.cpp" "src/daqd/FrameServe
 
 add_executable("daqd" ${DAQD_SOURCES})
 add_executable("write_raw" "src/raw_data/write_raw.cpp" "src/raw_data/shm_raw.cpp")
+add_executable("live_raw" "src/raw_data/live_raw.cpp" "src/raw_data/shm_raw.cpp")
 
 execute_process(COMMAND root-config --incdir OUTPUT_VARIABLE ROOT_INCDIR)
 string(STRIP ${ROOT_INCDIR} ROOT_INCDIR)

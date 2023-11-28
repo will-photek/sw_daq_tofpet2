@@ -64,8 +64,8 @@ struct RawDataFrame {
 	unsigned getChannelID(int event) {
 		RawEventWord rawEvent(data[event+2]);
 		return rawEvent.getChannelID();
-	};
-	
+    };
+
 };
 
 class SHM_RAW {
@@ -76,12 +76,15 @@ public:
 	unsigned long long getSizeInBytes();
 	unsigned long long  getSizeInFrames() { 
 		return MaxRawDataFrameQueueSize;
-	};
+    };
+
+
+    RawDataFrame *shm;
 	
 	RawDataFrame *getRawDataFrame(int index) {
 		RawDataFrame *dataFrame = &shm[index];
 		return dataFrame;
-	}
+    }
 
 	unsigned long long getFrameWord(int index, int n) {
 		RawDataFrame *dataFrame = &shm[index];
@@ -130,9 +133,9 @@ public:
 		return  getRawDataFrame(index)->getChannelID(event);
 	};
 
+
 private:
-	int shmfd;
-	RawDataFrame *shm;
+    int shmfd;
 	off_t shmSize;
 };
 
