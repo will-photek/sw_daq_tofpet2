@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(sw_daq_tofpet2)
 
+cmake_policy(SET CMP0148 OLD) # enable FindPythonLibs
+
 find_package(PythonLibs 3.9 REQUIRED)
 if(${PYTHONLIBS_VERSION_STRING} VERSION_GREATER_EQUAL "3.9" AND ${PYTHONLIBS_VERSION_STRING} VERSION_LESS "3.10")
 find_package(Boost REQUIRED python39 regex numpy39)
@@ -8,6 +10,8 @@ elseif(${PYTHONLIBS_VERSION_STRING} VERSION_GREATER_EQUAL "3.10" AND ${PYTHONLIB
 find_package(Boost REQUIRED python310 regex numpy310)
 elseif(${PYTHONLIBS_VERSION_STRING} VERSION_GREATER_EQUAL "3.11" AND ${PYTHONLIBS_VERSION_STRING} VERSION_LESS "3.12")
 find_package(Boost REQUIRED python311 regex numpy311)
+elseif(${PYTHONLIBS_VERSION_STRING} VERSION_GREATER_EQUAL "3.12" AND ${PYTHONLIBS_VERSION_STRING} VERSION_LESS "3.13")
+find_package(Boost REQUIRED python312 regex numpy312)
 else()
 message( FATAL_ERROR "No supported python version found!." )
 endif()
