@@ -1,21 +1,10 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(sw_daq_tofpet2)
 
-cmake_policy(SET CMP0148 OLD) # enable FindPythonLibs
+find_package(Python3 3.12 REQUIRED COMPONENTS Interpreter Development)
 
-find_package(PythonLibs 3.9 REQUIRED)
-if(${PYTHONLIBS_VERSION_STRING} VERSION_GREATER_EQUAL "3.9" AND ${PYTHONLIBS_VERSION_STRING} VERSION_LESS "3.10")
-find_package(Boost REQUIRED python39 regex numpy39)
-elseif(${PYTHONLIBS_VERSION_STRING} VERSION_GREATER_EQUAL "3.10" AND ${PYTHONLIBS_VERSION_STRING} VERSION_LESS "3.11")
-find_package(Boost REQUIRED python310 regex numpy310)
-elseif(${PYTHONLIBS_VERSION_STRING} VERSION_GREATER_EQUAL "3.11" AND ${PYTHONLIBS_VERSION_STRING} VERSION_LESS "3.12")
-find_package(Boost REQUIRED python311 regex numpy311)
-elseif(${PYTHONLIBS_VERSION_STRING} VERSION_GREATER_EQUAL "3.12" AND ${PYTHONLIBS_VERSION_STRING} VERSION_LESS "3.13")
 find_package(Boost REQUIRED python312 regex numpy312)
-else()
-message( FATAL_ERROR "No supported python version found!." )
-endif()
-#find_package(Boost COMPONENTS python3 numpy3 regex REQUIRED)
+
 find_program(LSB_RELEASE_EXEC lsb_release)
 execute_process(COMMAND ${LSB_RELEASE_EXEC} -is
 	OUTPUT_VARIABLE LSB_ID_SHORT
@@ -26,12 +15,9 @@ execute_process(COMMAND ${LSB_RELEASE_EXEC} -rs
 	OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-find_package(PythonLibs 3.6 REQUIRED)
-
-
 include(CheckIncludeFiles)
 
-include_directories(${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIRS} ${Python3_INCLUDE_DIRS})
 include_directories("/usr/include/iniparser")
 
 link_libraries("rt" "pthread")
@@ -61,11 +47,11 @@ string(STRIP ${ROOT_LIBS} ROOT_LIBS)
 execute_process(COMMAND root-config --cflags OUTPUT_VARIABLE ROOT_CXX_FLAGS)
 string(STRIP ${ROOT_CXX_FLAGS} ROOT_CXX_FLAGS)
 
-link_libraries(${Boost_LIBRARIES} ${PYTHON_LIBRARIES} "-liniparser")
+link_libraries(${Boost_LIBRARIES} ${Python3_LIBRARIES} "-liniparser")
 add_library(shm_raw_py MODULE "src/raw_data/shm_raw.cpp" "src/raw_data/shm_raw_py.cpp")
 set_target_properties(shm_raw_py PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/petsys OUTPUT_NAME shm_raw PREFIX "")
 
-link_libraries(${Boost_LIBRARIES} ${PYTHON_LIBRARIES} "-liniparser")
+link_libraries(${Boost_LIBRARIES} ${Python3_LIBRARIES} "-liniparser")
 add_library(monitor_py MODULE "src/online_monitor/Monitor.cpp" "src/online_monitor/SingleValue.cpp" "src/online_monitor/Histogram1D.cpp" "src/online_monitor/monitor_py.cpp")
 set_target_properties(monitor_py PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/petsys OUTPUT_NAME monitor PREFIX "")
 
