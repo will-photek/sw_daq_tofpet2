@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(sw_daq_tofpet2)
 
-find_package(Python3 3.12 REQUIRED COMPONENTS Interpreter Development)
+find_package(Python3 3.13 REQUIRED COMPONENTS Interpreter Development)
 
-find_package(Boost REQUIRED python312 regex numpy312)
+find_package(Boost REQUIRED python313 regex numpy313)
 
 find_program(LSB_RELEASE_EXEC lsb_release)
 execute_process(COMMAND ${LSB_RELEASE_EXEC} -is
